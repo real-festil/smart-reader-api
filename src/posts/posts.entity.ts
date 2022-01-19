@@ -9,7 +9,7 @@ export class PostsEntity {
   @Column({ type: 'varchar', length: 300 })
   bio: string;
 
-  @Column({ type: 'bytea' })
+  @Column({ type: 'varchar' })
   image: any;
 
   @ManyToOne(() => User, (user) => user.posts)

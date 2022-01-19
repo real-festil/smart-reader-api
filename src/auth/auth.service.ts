@@ -19,9 +19,13 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.usersRepository.findOne({ email });
     if (user) {
+      console.log('user', user);
+
       const isValid = await bcrypt.compare(password, user.password);
+      console.log('isValid', isValid);
+
       if (user && isValid) {
-        this.login(user);
+        return this.login(user);
       }
     }
     return 'Incorrect email or password';
