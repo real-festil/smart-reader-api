@@ -21,10 +21,10 @@ export class AuthService {
     if (user) {
       const isValid = await bcrypt.compare(password, user.password);
       if (user && isValid) {
-        return user;
+        this.login(user);
       }
     }
-    return null;
+    return 'Incorrect email or password';
   }
 
   async login(user: User) {

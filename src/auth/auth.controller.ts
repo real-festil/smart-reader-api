@@ -4,7 +4,7 @@ import { LocalAuthGuard } from './auth.guard';
 import { Public } from '../decorators/public.decorator';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserExistGuard } from '../users/users.guard';
-import { RegisterDto } from './auth.dto';
+import { RegisterDto, LoginDto } from './auth.dto';
 import { UserService } from 'src/users/users.service';
 
 @Controller('auth')
@@ -17,11 +17,9 @@ export class AuthController {
   @ApiTags('Auth')
   @ApiOperation({ summary: 'Login user' })
   @Public()
-  @UseGuards(LocalAuthGuard)
   @Post('/login')
-  loginUser(@Request() req) {
-    console.log('hello', req);
-    return this.authService.login(req.user);
+  loginUser(@Body() loginDto: LoginDto) {
+    return this.authService.validateUser(loginDto.email, loginDto.password);
   }
 
   @ApiTags('Auth')
