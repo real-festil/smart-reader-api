@@ -11,7 +11,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     AuthModule,
     UsersModule,
-    PostsModule,
+    // PostsModule,
     TypeOrmModule.forRoot(config),
   ],
   controllers: [AppController],
