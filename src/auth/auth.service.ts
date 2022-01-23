@@ -28,7 +28,7 @@ export class AuthService {
         return this.login(user);
       }
     }
-    return 'Incorrect email or password';
+    return { error: true, message: 'Incorrect email or password' };
   }
 
   async login(user: User) {
