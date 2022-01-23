@@ -45,4 +45,16 @@ export class AuthController {
     console.log(serviceDto, 'serviceDto');
     return 'WIP';
   }
+
+  @ApiTags('Auth')
+  @ApiOperation({
+    summary: 'Forgot password',
+  })
+  @Public()
+  @UseGuards(UserExistGuard)
+  @Post('/service')
+  async forgotPassword(@Body() serviceDto: ServiceDto) {
+    console.log(serviceDto, 'serviceDto');
+    return 'WIP';
+  }
 }
