@@ -40,6 +40,12 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { username, email, password } = registerDto;
+
+    const user = await this.usersRepository.findOne({ email });
+    if (user) {
+      return { error: true, message: 'Email already in use' };
+    }
+
     return await this.userService.addUser(username, email, password);
   }
 }
