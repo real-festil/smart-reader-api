@@ -52,7 +52,7 @@ export class AuthController {
   })
   @Public()
   @UseGuards(UserExistGuard)
-  @Post('/service')
+  @Post('/forgotPassword')
   async forgotPassword(@Body() serviceDto: ServiceDto) {
     console.log(serviceDto, 'serviceDto');
     return 'WIP';
