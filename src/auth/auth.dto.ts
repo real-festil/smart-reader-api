@@ -49,3 +49,14 @@ export class RegisterDto {
   })
   password: string;
 }
+
+export class ServiceDto {
+  @IsNotEmpty()
+  @IsEmail()
+  @ApiProperty({
+    type: 'string',
+    description: 'email',
+    required: true,
+  })
+  email: string;
+}

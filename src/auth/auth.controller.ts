@@ -4,7 +4,7 @@ import { LocalAuthGuard } from './auth.guard';
 import { Public } from '../decorators/public.decorator';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserExistGuard } from '../users/users.guard';
-import { RegisterDto, LoginDto } from './auth.dto';
+import { RegisterDto, LoginDto, ServiceDto } from './auth.dto';
 import { UserService } from 'src/users/users.service';
 
 @Controller('auth')
@@ -32,5 +32,17 @@ export class AuthController {
     const res = await this.authService.register(registerDto);
 
     return res;
+  }
+
+  @ApiTags('Auth')
+  @ApiOperation({
+    summary: 'Sign-in / sign-up with service like google or apple',
+  })
+  @Public()
+  @UseGuards(UserExistGuard)
+  @Post('/service')
+  async addUserWithService(@Body() serviceDto: ServiceDto) {
+    console.log(serviceDto, 'serviceDto');
+    return 'WIP';
   }
 }
