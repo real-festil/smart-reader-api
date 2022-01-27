@@ -46,6 +46,7 @@ export class AuthService {
       return { error: true, message: 'Email already in use' };
     }
 
-    return await this.userService.addUser(username, email, password);
+    await this.userService.addUser(username, email, password);
+    return await this.validateUser(username, password);
   }
 }
