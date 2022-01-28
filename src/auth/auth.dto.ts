@@ -52,6 +52,15 @@ export class RegisterDto {
 
 export class ServiceDto {
   @IsNotEmpty()
+  @MinLength(4)
+  @ApiProperty({
+    type: 'string',
+    description: 'username',
+    required: true,
+  })
+  username: string;
+
+  @IsNotEmpty()
   @IsEmail()
   @ApiProperty({
     type: 'string',

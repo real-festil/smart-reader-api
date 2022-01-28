@@ -42,8 +42,7 @@ export class AuthController {
   @UseGuards(UserExistGuard)
   @Post('/service')
   async addUserWithService(@Body() serviceDto: ServiceDto) {
-    console.log(serviceDto, 'serviceDto');
-    return 'WIP';
+    return this.authService.serviceAuth(serviceDto);
   }
 
   @ApiTags('Auth')
