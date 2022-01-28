@@ -58,6 +58,11 @@ export class AuthService {
       return this.login(user);
     }
 
-    return await this.userService.addUser(username, email, 'serviceUserType');
+    const newUser = await this.userService.addUser(
+      username,
+      email,
+      'serviceUserType',
+    );
+    return await this.login(newUser);
   }
 }

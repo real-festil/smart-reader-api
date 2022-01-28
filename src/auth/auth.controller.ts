@@ -39,7 +39,7 @@ export class AuthController {
     summary: 'Sign-in / sign-up with service like google or apple',
   })
   @Public()
-  @UseGuards(UserExistGuard)
+  // @UseGuards(UserExistGuard)
   @Post('/service')
   async addUserWithService(@Body() serviceDto: ServiceDto) {
     return this.authService.serviceAuth(serviceDto);
