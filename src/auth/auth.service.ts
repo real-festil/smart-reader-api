@@ -118,6 +118,8 @@ export class AuthService {
 
   async userExists(email: string) {
     const user = await this.usersRepository.findOne({ email });
+    console.log('user', user);
+    console.log('email', email);
     if (user) {
       return { email, id: user.id };
     }
