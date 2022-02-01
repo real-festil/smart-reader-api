@@ -77,7 +77,7 @@ export class AuthController {
   })
   @Public()
   @Post('/userExists')
-  async userExists(@Body() email: string) {
-    return this.authService.userExists(email);
+  async userExists(@Body() body: { email: string }) {
+    return this.authService.userExists(body);
   }
 }
