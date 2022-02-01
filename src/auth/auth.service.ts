@@ -115,4 +115,12 @@ export class AuthService {
     }
     return { error: true, message: 'User with this email not found.' };
   }
+
+  async userExists(email: string) {
+    const user = await this.usersRepository.findOne({ email });
+    if (user) {
+      return { email, id: user.id };
+    }
+    return { error: true, message: 'User with this email not found.' };
+  }
 }

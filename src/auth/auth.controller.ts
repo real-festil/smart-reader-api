@@ -70,4 +70,14 @@ export class AuthController {
   async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.authService.resetPassword(forgotPasswordDto);
   }
+
+  @ApiTags('Auth')
+  @ApiOperation({
+    summary: 'Is user exist?',
+  })
+  @Public()
+  @Post('/userExists')
+  async userExists(@Body() email: string) {
+    return this.authService.userExists(email);
+  }
 }
