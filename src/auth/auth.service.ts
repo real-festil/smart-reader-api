@@ -4,8 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/users.entity';
 import * as bcrypt from 'bcryptjs';
-import { RegisterDto, ServiceDto } from './auth.dto';
+import { ForgotPasswordDto, RegisterDto, ServiceDto } from './auth.dto';
 import { UserService } from '../users/users.service';
+import fetch from 'node-fetch';
+// const fetch = (...args) =>
+//   //@ts-ignore
+//   import('node-fetch').then(({ default: fetch }) => fetch(...args));
+import { init, send } from '@emailjs/browser';
+init('user_wyoRsMx8pxobKSQKtM8j7');
 
 @Injectable()
 export class AuthService {
@@ -64,5 +70,49 @@ export class AuthService {
       'serviceUserType',
     );
     return await this.login(newUser);
+  }
+
+  async getVerificationCode(email: string) {
+    const code = Math.floor(1000 + Math.random() * 9000);
+    await this.sendVerificationCode(email, code);
+    return { code };
+  }
+
+  async sendVerificationCode(email: string, code: number) {
+    const body = {
+      personalizations: [{ to: [{ email: email }], subject: 'SmartReader' }],
+      from: { email: 'smartreaderapp1@gmail.com' },
+      content: [
+        {
+          type: 'text/html',
+          value: `<div>Your verification code: ${code}</div>`,
+        },
+      ],
+    };
+
+    fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.SENDGRID_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        console.log('response', response);
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
+  }
+
+  async resetPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const { userId, userData } = forgotPasswordDto;
+
+    const user = await this.usersRepository.findOne({ email: userData.email });
+    if (user) {
+      return await this.userService.updateUser(userId, userData);
+    }
+    return { error: true, message: 'User with this email not found.' };
   }
 }

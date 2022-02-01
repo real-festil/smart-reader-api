@@ -69,3 +69,22 @@ export class ServiceDto {
   })
   email: string;
 }
+
+export class ForgotPasswordDto {
+  @IsNotEmpty()
+  @MinLength(4)
+  @ApiProperty({
+    type: 'string',
+    description: 'user id',
+    required: true,
+  })
+  userId: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    type: 'string',
+    description: 'user data',
+    required: true,
+  })
+  userData: RegisterDto;
+}

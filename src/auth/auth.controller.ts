@@ -4,7 +4,12 @@ import { LocalAuthGuard } from './auth.guard';
 import { Public } from '../decorators/public.decorator';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserExistGuard } from '../users/users.guard';
-import { RegisterDto, LoginDto, ServiceDto } from './auth.dto';
+import {
+  RegisterDto,
+  LoginDto,
+  ServiceDto,
+  ForgotPasswordDto,
+} from './auth.dto';
 import { UserService } from 'src/users/users.service';
 
 @Controller('auth')
@@ -47,13 +52,22 @@ export class AuthController {
 
   @ApiTags('Auth')
   @ApiOperation({
+    summary: 'Get verification code',
+  })
+  @Public()
+  @Post('/verification')
+  async verification(@Body() { email }: { email: string }) {
+    return this.authService.getVerificationCode(email);
+  }
+
+  @ApiTags('Auth')
+  @ApiOperation({
     summary: 'Forgot password',
   })
   @Public()
   @UseGuards(UserExistGuard)
   @Post('/forgotPassword')
-  async forgotPassword(@Body() serviceDto: ServiceDto) {
-    console.log(serviceDto, 'serviceDto');
-    return 'WIP';
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.resetPassword(forgotPasswordDto);
   }
 }
