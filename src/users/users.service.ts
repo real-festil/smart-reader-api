@@ -32,9 +32,11 @@ export class UserService {
 
   async updateUser(userId: string, userData: UpdateUserDto) {
     const user = await this.usersRepository.findOne(userId);
+    const hashedPassword = await bcrypt.hash(userData.password, 8);
+    const updatedUserData = { ...userData, password: hashedPassword };
     return await this.usersRepository.save({
       ...user,
-      ...userData,
+      ...updatedUserData,
     });
   }
 
