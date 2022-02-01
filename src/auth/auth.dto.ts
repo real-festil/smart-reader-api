@@ -72,7 +72,6 @@ export class ServiceDto {
 
 export class ForgotPasswordDto {
   @IsNotEmpty()
-  @MinLength(4)
   @ApiProperty({
     type: 'string',
     description: 'user id',
