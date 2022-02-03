@@ -9,6 +9,7 @@ import {
   LoginDto,
   ServiceDto,
   ForgotPasswordDto,
+  AppleAuthDto,
 } from './auth.dto';
 import { UserService } from 'src/users/users.service';
 
@@ -41,7 +42,7 @@ export class AuthController {
 
   @ApiTags('Auth')
   @ApiOperation({
-    summary: 'Sign-in / sign-up with service like google or apple',
+    summary: 'Sign-in / sign-up with service like google',
   })
   @Public()
   // @UseGuards(UserExistGuard)
@@ -79,5 +80,15 @@ export class AuthController {
   @Post('/userExists')
   async userExists(@Body() body: { email: string }) {
     return this.authService.userExists(body);
+  }
+
+  @ApiTags('Auth')
+  @ApiOperation({
+    summary: 'Sign-in / sign-up with apple',
+  })
+  @Public()
+  @Post('/appleAuth')
+  async addUserWithApple(@Body() appleAuthDto: AppleAuthDto) {
+    return this.authService.appleAuth(appleAuthDto);
   }
 }

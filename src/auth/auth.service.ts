@@ -4,7 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/users.entity';
 import * as bcrypt from 'bcryptjs';
-import { ForgotPasswordDto, RegisterDto, ServiceDto } from './auth.dto';
+import {
+  AppleAuthDto,
+  ForgotPasswordDto,
+  RegisterDto,
+  ServiceDto,
+} from './auth.dto';
 import { UserService } from '../users/users.service';
 import fetch from 'node-fetch';
 // const fetch = (...args) =>
@@ -124,5 +129,21 @@ export class AuthService {
       return { email, id: user.id };
     }
     return { error: true, message: 'User with this email not found.' };
+  }
+
+  async appleAuth({ appleId, email, username }: AppleAuthDto) {
+    const user = await this.usersRepository.findOne({ appleId });
+
+    if (user) {
+      return this.login(user);
+    }
+
+    const newUser = await this.userService.addUser(
+      username,
+      email,
+      'serviceUserType',
+      appleId,
+    );
+    return await this.login(newUser);
   }
 }

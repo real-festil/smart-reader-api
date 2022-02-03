@@ -12,12 +12,18 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async addUser(username: string, email: string, password: string) {
+  async addUser(
+    username: string,
+    email: string,
+    password: string,
+    appleId?: string,
+  ) {
     const hashedPassword = await bcrypt.hash(password, 8);
     const res = await this.usersRepository.save({
       username,
       email,
       password: hashedPassword,
+      appleId,
     });
     return res;
   }

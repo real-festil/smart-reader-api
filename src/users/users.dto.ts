@@ -28,4 +28,12 @@ export class UpdateUserDto {
     required: false,
   })
   password: string;
+
+  @IsOptional()
+  @ApiProperty({
+    type: 'string',
+    description: 'appleId',
+    required: false,
+  })
+  appleId?: string;
 }

@@ -87,3 +87,27 @@ export class ForgotPasswordDto {
   })
   userData: RegisterDto;
 }
+
+export class AppleAuthDto {
+  @ApiProperty({
+    type: 'string',
+    description: 'email',
+    required: false,
+  })
+  email?: string;
+
+  @ApiProperty({
+    type: 'string',
+    description: 'username',
+    required: false,
+  })
+  username?: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    type: 'string',
+    description: 'appleId',
+    required: true,
+  })
+  appleId: string;
+}
