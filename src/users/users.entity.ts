@@ -15,8 +15,8 @@ export class User {
   @Column({ type: 'varchar', length: 200 })
   password: string;
 
-  @Column({ type: 'varchar', length: 200 })
-  appleId: string;
+  @Column({ type: 'varchar', length: 200, nullable: true })
+  appleId?: string;
 
   // @OneToMany(() => PostsEntity, (posts) => posts.user)
   // posts: PostsEntity[];
