@@ -63,7 +63,7 @@ export class AuthController {
 
   @ApiTags('Auth')
   @ApiOperation({
-    summary: 'Get verification code',
+    summary: 'Verify user',
   })
   @Public()
   @Post('/verifyUser')
