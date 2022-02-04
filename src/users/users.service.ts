@@ -24,6 +24,7 @@ export class UserService {
       email,
       password: hashedPassword,
       appleId,
+      isVerified: false,
     });
     return res;
   }
@@ -36,10 +37,17 @@ export class UserService {
     return await this.usersRepository.findOne(userId);
   }
 
-  async updateUser(userId: string, userData: UpdateUserDto) {
+  async updateUser(
+    userId: string,
+    userData: UpdateUserDto,
+    isHashed?: boolean,
+  ) {
     const user = await this.usersRepository.findOne(userId);
     const hashedPassword = await bcrypt.hash(userData.password, 8);
-    const updatedUserData = { ...userData, password: hashedPassword };
+    const updatedUserData = {
+      ...userData,
+      password: isHashed ? userData.password : hashedPassword,
+    };
     return await this.usersRepository.save({
       ...user,
       ...updatedUserData,

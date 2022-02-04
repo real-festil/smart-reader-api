@@ -30,6 +30,9 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.usersRepository.findOne({ email });
     if (user) {
+      if (!user.isVerified) {
+        return { error: true, message: 'Email is not verified' };
+      }
       console.log('user', user);
 
       const isValid = await bcrypt.compare(password, user.password);
@@ -109,6 +112,21 @@ export class AuthService {
       .catch((err) => {
         console.log('err', err);
       });
+  }
+
+  async verifyUser(email: string, userId: string) {
+    const user = await this.usersRepository.findOne({ email });
+    if (user) {
+      return await this.userService.updateUser(
+        userId,
+        {
+          ...user,
+          isVerified: true,
+        },
+        true,
+      );
+    }
+    return { error: true, message: 'User with this email not found.' };
   }
 
   async resetPassword(forgotPasswordDto: ForgotPasswordDto) {

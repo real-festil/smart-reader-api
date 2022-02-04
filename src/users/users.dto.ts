@@ -36,4 +36,12 @@ export class UpdateUserDto {
     required: false,
   })
   appleId?: string;
+
+  @IsOptional()
+  @ApiProperty({
+    type: 'boolean',
+    description: 'isVerified',
+    required: false,
+  })
+  isVerified?: boolean;
 }

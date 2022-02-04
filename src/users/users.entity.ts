@@ -18,6 +18,9 @@ export class User {
   @Column({ type: 'varchar', length: 200, nullable: true })
   appleId?: string;
 
+  @Column({ type: 'boolean' })
+  isVerified?: boolean;
+
   // @OneToMany(() => PostsEntity, (posts) => posts.user)
   // posts: PostsEntity[];
 }

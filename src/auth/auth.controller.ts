@@ -63,6 +63,18 @@ export class AuthController {
 
   @ApiTags('Auth')
   @ApiOperation({
+    summary: 'Get verification code',
+  })
+  @Public()
+  @Post('/verifyUser')
+  async verifyUser(
+    @Body() { email, userId }: { email: string; userId: string },
+  ) {
+    return this.authService.verifyUser(email, userId);
+  }
+
+  @ApiTags('Auth')
+  @ApiOperation({
     summary: 'Forgot password',
   })
   @Public()
