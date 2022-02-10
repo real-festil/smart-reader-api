@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Param, UseGuards } from '@nestjs/common';
 import { UserNotExistsGuard } from '../users/users.guard';
-import { BooksService } from './posts.service';
+import { BooksService } from './books.service';
 import { BookOwnerGuard } from './books.guard';
 import { AddBookDto, UpdateBookDto } from './books.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';

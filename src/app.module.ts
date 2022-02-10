@@ -6,12 +6,13 @@ import { UsersModule } from './users/users.module';
 import { config } from './orm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
-    // PostsModule,
+    BooksModule,
     TypeOrmModule.forRoot(config),
     ConfigModule.forRoot(),
   ],
