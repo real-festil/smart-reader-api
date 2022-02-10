@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-// import { PostsEntity } from '../posts/posts.entity';
+import { BooksEntity } from '../books/books.entity';
 
 @Entity('users')
 export class User {
@@ -21,6 +21,6 @@ export class User {
   @Column({ type: 'boolean' })
   isVerified?: boolean;
 
-  // @OneToMany(() => PostsEntity, (posts) => posts.user)
-  // posts: PostsEntity[];
+  @OneToMany(() => BooksEntity, (books) => books.user)
+  books: BooksEntity[];
 }
