@@ -6,6 +6,8 @@ import {
   Post,
   Patch,
   Query,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { Param, UseGuards } from '@nestjs/common';
 import { UserNotExistsGuard } from '../users/users.guard';
@@ -14,6 +16,7 @@ import { BookOwnerGuard } from './books.guard';
 import { AddBookDto, UpdateBookDto } from './books.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @UseGuards(UserNotExistsGuard)
 @Controller('/books')
@@ -22,9 +25,14 @@ export class BooksController {
 
   @ApiTags('Books')
   @ApiOperation({ summary: 'Add book' })
+  @UseInterceptors(FileInterceptor('file'))
   @Post()
-  async addBook(@CurrentUser('id') userId, @Body() addBookDto: AddBookDto) {
-    return await this.booksService.addBook(userId, addBookDto.book);
+  async addBook(
+    @CurrentUser('id') userId,
+    @UploadedFile() book: Express.Multer.File,
+  ) {
+    console.log('book', book);
+    return await this.booksService.addBook(userId, book);
   }
 
   @ApiTags('Books')
@@ -38,7 +46,7 @@ export class BooksController {
   @ApiTags('Books')
   @ApiOperation({ summary: 'Get all books' })
   @Get()
-  async getBooks(@Query('userId') userId: string) {
+  async getBooks(@CurrentUser('id') userId) {
     return await this.booksService.getBooks(userId);
   }
 

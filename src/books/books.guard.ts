@@ -19,20 +19,20 @@ export class BookOwnerGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest();
-    if (req.params.postId && isUUID.v4(req.params.postId)) {
-      const post = await this.booksRepository.findOne(req.params.postId, {
+    if (req.params.bookId && isUUID.v4(req.params.bookId)) {
+      const book = await this.booksRepository.findOne(req.params.bookId, {
         relations: ['user'],
       });
-      if (!post) {
-        throw new NotFoundException('Post not found');
+      if (!book) {
+        throw new NotFoundException('Book not found');
       }
-      if (post.user.id === req.user.id) {
+      if (book.user.id === req.user.id) {
         return true;
       } else {
         throw new ForbiddenException('User does not have permission');
       }
     } else {
-      throw new ForbiddenException('Invalid post id type');
+      throw new ForbiddenException('Invalid book id type');
     }
   }
 }
@@ -47,11 +47,11 @@ export class BookNotExistsGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest();
     const user = await this.booksRepository.findOne({
-      id: req.params.postId,
+      id: req.params.bookId,
     });
 
     if (!user) {
-      throw new ForbiddenException('Post with this id not exists');
+      throw new ForbiddenException('Book with this id not exists');
     }
     return true;
   }

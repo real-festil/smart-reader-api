@@ -6,8 +6,8 @@ export class BooksEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar' })
-  image: any;
+  @Column({ type: 'varchar', length: 250 })
+  book: string;
 
   @ManyToOne(() => User, (user) => user.books)
   user: User;

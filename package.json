@@ -36,6 +36,7 @@
     "class-validator": "^0.13.1",
     "cross-blob": "^2.0.0",
     "filereader": "^0.10.3",
+    "firebase-admin": "^10.0.2",
     "is-uuid": "^1.0.2",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.7",
@@ -47,7 +48,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "^0.2.32"
+    "typeorm": "^0.2.32",
+    "uuidv4": "^6.2.12"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",

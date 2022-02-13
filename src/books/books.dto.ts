@@ -8,7 +8,6 @@ export class AddBookDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsBase64()
   book: string;
 }
 
@@ -19,6 +18,5 @@ export class UpdateBookDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsBase64()
   book: string;
 }
