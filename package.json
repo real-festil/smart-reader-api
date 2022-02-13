@@ -38,6 +38,7 @@
     "filereader": "^0.10.3",
     "firebase-admin": "^10.0.2",
     "is-uuid": "^1.0.2",
+    "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.7",
     "passport": "^0.4.1",

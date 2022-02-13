@@ -6,6 +6,7 @@ import { json, urlencoded } from 'express';
 import { applicationDefault, initializeApp } from 'firebase-admin/app';
 import { Storage } from 'firebase-admin/storage';
 import admin from 'firebase-admin';
+import * as morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
+  app.use(morgan('tiny'));
 
   app.useGlobalPipes(new ValidationPipe());
 
