@@ -19,7 +19,19 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
-  app.use(morgan('tiny'));
+  app.use(
+    morgan(function (tokens, req, res) {
+      return [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'),
+        '-',
+        tokens['response-time'](req, res),
+        'ms',
+      ].join(' ');
+    }),
+  );
 
   app.useGlobalPipes(new ValidationPipe());
 
