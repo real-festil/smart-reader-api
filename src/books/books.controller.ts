@@ -17,6 +17,7 @@ import { AddBookDto, UpdateBookDto } from './books.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
+import fetch from 'node-fetch';
 
 @UseGuards(UserNotExistsGuard)
 @Controller('/books')
@@ -32,7 +33,7 @@ export class BooksController {
     @UploadedFile() book: Express.Multer.File,
   ) {
     console.log('book', book);
-    if (!book) return 'Danil ti loshara';
+    if (!book) return await fetch('https://cataas.com/cat');
     return await this.booksService.addBook(userId, book);
   }
 
