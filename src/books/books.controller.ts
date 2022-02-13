@@ -25,14 +25,14 @@ export class BooksController {
 
   @ApiTags('Books')
   @ApiOperation({ summary: 'Add book' })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('book'))
   @Post()
   async addBook(
     @CurrentUser('id') userId,
     @UploadedFile() book: Express.Multer.File,
   ) {
     console.log('book', book);
-    if(!book) return 'Danil ti loshara'
+    if (!book) return 'Danil ti loshara';
     return await this.booksService.addBook(userId, book);
   }
 
