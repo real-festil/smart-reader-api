@@ -32,6 +32,7 @@ export class BooksController {
     @UploadedFile() book: Express.Multer.File,
   ) {
     console.log('book', book);
+    if(!book) return 'Danil ti loshara'
     return await this.booksService.addBook(userId, book);
   }
 

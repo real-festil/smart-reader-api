@@ -8,6 +8,7 @@ import { Request } from 'express';
 import FileReader from 'filereader';
 import { uuid } from 'uuidv4';
 import admin from 'firebase-admin';
+import { PDFDocument } from 'pdf-lib';
 
 // const fileReader = new FileReader();
 
