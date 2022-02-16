@@ -6,7 +6,7 @@ export const config: TypeOrmModuleOptions = {
   // ssl: {
   //   rejectUnauthorized: false,
   // },
-  port: 1433,
+  port: 1434,
   username: 'root',
   password: 'Smart-reader1',
   host: 'localhost',
