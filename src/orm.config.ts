@@ -8,7 +8,7 @@ export const config: TypeOrmModuleOptions = {
   // },
   port: 1433,
   username: 'root',
-  password: 'root',
+  password: 'Smart-reader1',
   host: 'localhost',
   database: 'puregram_db',
   type: 'mysql',
