@@ -15,7 +15,7 @@ export class BookOwnerGuard implements CanActivate {
   constructor(
     @InjectRepository(BooksEntity)
     private booksRepository: Repository<BooksEntity>,
-  ) {}
+  ) { }
 
   async canActivate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest();
@@ -42,7 +42,7 @@ export class BookNotExistsGuard implements CanActivate {
   constructor(
     @InjectRepository(BooksEntity)
     private booksRepository: Repository<BooksEntity>,
-  ) {}
+  ) { }
 
   async canActivate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest();

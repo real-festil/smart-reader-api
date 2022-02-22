@@ -10,7 +10,7 @@ import { uuid } from 'uuidv4';
 import admin from 'firebase-admin';
 import { PDFDocument } from 'pdf-lib';
 
-// const fileReader = new FileReader();
+const ebookConverter = require('node-ebook-converter');
 
 @Injectable({ scope: Scope.REQUEST })
 export class BooksService {
@@ -19,33 +19,41 @@ export class BooksService {
     private booksRepository: Repository<BooksEntity>,
     private userService: UserService,
     @Inject(REQUEST) private readonly request: Request,
-  ) {}
+  ) { }
 
   async addBook(userId: string, book: Express.Multer.File) {
     const user = await this.userService.getSingleUser(userId);
-    this.uploadFile(book);
-    // const blob = Buffer.from(image, 'base64');
-    return await this.booksRepository.save({ book: book.originalname, user });
+    const uploadedBook = await this.uploadFile(book);
+    console.log('uploadedBook', uploadedBook);
+    const util = require('util');
+    const exec = util.promisify(require('child_process').exec);
+
+    async function ebookMeta() {
+      const { stdout, stderr } = await exec(`ebook-meta ${uploadedBook.output}`);
+      return stdout.split('\n').map(el => el.split(':').map(elOfEl => elOfEl.trim())).map(el => ({ [el[0]]: el[1] }));
+    }
+    let meta = await ebookMeta();
+    const parsedMeta = { title: String(Object.values(meta[0])), author: String(Object.values(meta[1])) };
+    console.log('parsedMeta', parsedMeta)
+    const repoRes = await this.booksRepository.save({ book: book.originalname, title: parsedMeta.title, author: parsedMeta.author, user, localPath: uploadedBook.output });
+    delete repoRes.user;
+    return { uploadedBook, repoRes };
   }
 
   async uploadFile(file) {
-    const bucket = admin.storage().bucket();
-    console.log('file', file);
-
-    // Uploads a local file to the bucket
-    await bucket
-      .file(file.originalname)
-      .save(file.buffer)
-      .then((res) => console.log(res));
-
-    console.log(`${file.originalname} uploaded.`);
+    return await ebookConverter.convert({
+      input: '/home/danilanpilov/api/smart-reader-api/' + file.destination + '/' + file.filename,
+      output: "/home/danilanpilov/api/smart-reader-api/epubBooks/" + file.filename + '.epub',
+      delete: true,
+    })
   }
 
   async getFile(file) {
-    const bucket = admin.storage().bucket();
-    const res = await bucket.file(file).download();
-    console.log('file', res);
-    return res;
+    // const bucket = admin.storage().bucket();
+    // const res = await bucket.file(file).download();
+    // console.log('file', res);
+    // return res;
+    return file;
   }
 
   async getBooks(userId: string) {
@@ -74,6 +82,11 @@ export class BooksService {
     return resWithBook;
   }
 
+  async getSingleBookFile(bookId: string) {
+    const res = await this.booksRepository.findOne(bookId);
+    return res;
+  }
+
   async updateBook(bookId: string, name: string) {
     return await this.booksRepository.save({ id: bookId, name });
   }
@@ -82,3 +95,11 @@ export class BooksService {
     return await this.booksRepository.delete({ id: bookId });
   }
 }
+function createReadStream(arg0: any) {
+  throw new Error('Function not implemented.');
+}
+
+function join(arg0: string, arg1: string): any {
+  throw new Error('Function not implemented.');
+}
+
