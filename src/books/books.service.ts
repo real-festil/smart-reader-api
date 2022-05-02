@@ -33,6 +33,7 @@ export class BooksService {
       return stdout.split('\n').map(el => el.split(':').map(elOfEl => elOfEl.trim())).map(el => ({ [el[0]]: el[1] }));
     }
     let meta = await ebookMeta();
+    console.log('meta', meta)
     const parsedMeta = { title: String(Object.values(meta[0])), author: String(Object.values(meta[1])) };
     console.log('parsedMeta', parsedMeta)
     const repoRes = await this.booksRepository.save({ book: book.originalname, title: parsedMeta.title, author: parsedMeta.author, user, localPath: uploadedBook.output });
@@ -43,7 +44,7 @@ export class BooksService {
   async uploadFile(file) {
     return await ebookConverter.convert({
       input: '/home/danilanpilov/api/smart-reader-api/' + file.destination + '/' + file.filename,
-      output: "/home/danilanpilov/api/smart-reader-api/epubBooks/" + file.filename + '.epub',
+      output: "/home/danilanpilov/api/smart-reader-api/pdfBooks/" + file.filename + '.pdf',
       delete: true,
     })
   }

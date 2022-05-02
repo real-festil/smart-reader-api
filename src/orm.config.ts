@@ -6,10 +6,9 @@ export const config: TypeOrmModuleOptions = {
   // ssl: {
   //   rejectUnauthorized: false,
   // },
-  port: 3306,
   username: 'root',
   password: 'root',
-  host: 'localhost',
+  host: '127.0.0.1',
   database: 'smart_reader_db',
   type: 'mysql',
   synchronize: true,
